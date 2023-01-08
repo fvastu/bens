@@ -57,9 +57,10 @@ When migrating to this new background context, you'll need to keep two main thin
 * Service workers have a short life and are automatically closed when not in use
 * Service workers don't have access to DOM.
 
-Without having access (directly) to DOM, any type of operations with the intent of modify it is tedious and not straightforward.  That's why Bens comes to your aid. Directly from your service worker, you can:
+Without having access (directly) to DOM, any type of operations with the intent of modify it, is tedious and not straightforward. That's why Bens comes to your aid. Directly from your service worker, you can:
 * Display overlay popups
-* Display notifications with a high degree of flexibility and customization.
+* Display notifications
+Everything can be made with a high degree of flexibility and customization.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
