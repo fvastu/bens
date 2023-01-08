@@ -16,7 +16,8 @@
     "types"
   ],
   "scripts": {
-    "build": "run-s build:clean build:pro build:types build:copy",
+    "build": "run-s build:clean build:pro build:types build:copy replaceScript",
+    "replaceScript": "node afterbuild.js",
     "build:clean": "del -rf lib types",
     "build:copy": "copyfiles -u 1 src/*.d.ts types",
     "build:dev": "rollup -c --environment NODE_ENV:development",
@@ -33,14 +34,11 @@
     "test:watch": "jest --testPathIgnorePatterns=e2e --watch"
   },
   "dependencies": {
-    "@types/chrome": "0.0.99",
-    "@types/node": "^13.9.0",
-    "rxjs": "^6.5.4 || ^7.1.0"
+    "@types/chrome": "^0.0.206"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.0",
-    "@rollup/plugin-sucrase": "^3.1.0",
+    "@rollup/plugin-terser": "^0.3.0",
     "@rollup/plugin-typescript": "^4.0.0",
     "@types/jest": "^25.1.4",
     "@types/jest-in-case": "^1.0.1",
@@ -60,9 +58,6 @@
     "prettier-plugin-packagejson": "^2.0.10",
     "puppeteer": "^5.5.0",
     "rollup": "^2.34.0",
-    "rollup-plugin-chrome-extension": "^3.4.0",
-    "rollup-plugin-empty-dir": "^1.0.4",
-    "rollup-plugin-zip": "^1.0.0",
     "rxjs": "^7.1.0",
     "ts-jest": "^26.5.6",
     "tslib": "^2.2.0",

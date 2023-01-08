@@ -1,25 +1,8 @@
 /* eslint-env node */
-
 import typescript from '@rollup/plugin-typescript'
+import terser from '@rollup/plugin-terser';
 
 export default [
-  {
-    input: 'src/index.ts',
-    output: [
-      {
-        file: 'lib/index.esm.js',
-        format: 'esm',
-        sourcemap: true,
-      },
-      {
-        file: 'lib/index.cjs.js',
-        format: 'cjs',
-        sourcemap: true,
-      },
-    ],
-    external: ['rxjs', 'rxjs/operators'],
-    plugins: [typescript()],
-  },
   {
     input: 'src/script.ts',
     output: [
@@ -31,10 +14,27 @@ export default [
       {
         file: 'lib/script.cjs.js',
         format: 'cjs',
-        sourcemap: true,
+        sourcemap: false,
       },
     ],
-    external: ['rxjs', 'rxjs/operators'],
-    plugins: [typescript()],
+    plugins: [typescript(), terser()],
+  },
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: 'lib/index.esm.js',
+        format: 'esm',
+        sourcemap: false,
+      },
+      {
+        file: 'lib/index.cjs.js',
+        format: 'cjs',
+        sourcemap: false,
+      },
+    ],
+    plugins: [
+      typescript(), terser()
+    ],
   },
 ]

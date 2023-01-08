@@ -58,21 +58,17 @@ const schedulePopupExecutionOfType = (
     });
     return;
   }
-  console.log(self);
-  /*
   // Inject in the provided tabId
   hasBeenAlreadyAttached(tabId as number).then(value => {
     (value ? Promise.resolve() : attachScriptToWindow(tabId as number)).then(
       () => {
-        // if (type === 'modal') executePopup(tabId as number, params);
-        // else executeNotification(tabId as number, params);
+        if (type === 'modal') executePopup(tabId as number, params);
+        else executeNotification(tabId as number, params);
       }
     );
   });
-  */
 };
 
-// @ts-ignore
 const hasBeenAlreadyAttached = async (tabId: number) => {
   return scriptInjector.executeInPage({
     tabId,
@@ -80,12 +76,13 @@ const hasBeenAlreadyAttached = async (tabId: number) => {
   });
 };
 
-// @ts-ignore
 const attachScriptToWindow = async (tabId: number) => {
-  return scriptInjector.executeInPage<void>({ tabId, files: ['script.js'] });
+  return scriptInjector.executeInPage<void>({ tabId, func: () => {
+    // @ts-ignore
+    __INSERT__HERE__SCRIPT
+  }});
 };
 
-// @ts-ignore
 const executePopup = async (
   tabId: number,
   params: ModalInjectionParameters
@@ -100,7 +97,6 @@ const executePopup = async (
 const PopupFactory = (args: ModalInjectionParameters) =>
   new window.BensPopup(args);
 
-// @ts-ignore
 const executeNotification = async (
   tabId: number,
   params: ModalInjectionParameters

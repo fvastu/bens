@@ -1,8 +1,0 @@
-{
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "jestRunIt.testMatchPatterns": [
-    "**/*.{spec,test}.{js,ts,jsx,tsx}",
-    "**/__test__/*.{js,ts,jsx,tsx}"
-  ],
-  "jestRunIt.jestPath": "node_modules/.bin/jest"
-}

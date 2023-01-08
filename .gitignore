@@ -1,8 +1,2 @@
-node_modules/
-.rpt2_cache
-lib/
-tests/e2e/extension-build
-playground/
-types
-**/*.log
-TODO
+node_modules
+lib
