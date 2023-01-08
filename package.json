@@ -1,122 +1,71 @@
 {
-  "name": "typescript-npm-package-template",
-  "version": "0.0.0-development",
-  "description": "A template for creating npm packages using TypeScript and VSCode",
-  "main": "./lib/index.js",
+  "name": "@fvastu/bens",
+  "version": "1.0.8",
+  "description": "An API for Chrome extension messages that makes sense.",
+  "keywords": [
+    "chrome",
+    "extension"
+  ],
+  "license": "MIT",
+  "author": "Francesco Vasturzo <f.vasturvo@live.it>",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
+  "types": "types/index.d.ts",
   "files": [
-    "lib/**/*"
+    "lib",
+    "types"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
-    "clean": "rm -rf ./lib/",
-    "cm": "cz",
-    "lint": "eslint ./src/ --fix",
-    "prepare": "husky install",
-    "semantic-release": "semantic-release",
-    "test:watch": "jest --watch",
-    "test": "jest --coverage",
-    "typecheck": "tsc --noEmit"
+    "build": "run-s build:clean build:pro build:types build:copy",
+    "build:clean": "del -rf lib types",
+    "build:copy": "copyfiles -u 1 src/*.d.ts types",
+    "build:dev": "rollup -c --environment NODE_ENV:development",
+    "build:pro": "rollup -c --environment NODE_ENV:production",
+    "build:testExtension": "del -rf tests/e2e/extension-build && rollup -c tests/e2e/extension-src/rollup.config.js",
+    "build:types": "tsc -p tsconfig.d.json",
+    "build:watch": "npm run build:dev -- -w",
+    "prepublishOnly": "npm run build",
+    "postpublish": "del -rf node_modules package-lock.json && pnpm i",
+    "start": "run-p build:watch test:watch",
+    "test": "run-s test:quick test:e2e",
+    "test:e2e": "run-s build:testExtension && jest e2e",
+    "test:quick": "jest --testPathIgnorePatterns=e2e",
+    "test:watch": "jest --testPathIgnorePatterns=e2e --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ryansonshine/typescript-npm-package-template.git"
+  "dependencies": {
+    "@types/chrome": "0.0.99",
+    "@types/node": "^13.9.0",
+    "rxjs": "^6.5.4 || ^7.1.0"
   },
-  "license": "MIT",
-  "author": {
-    "name": "Ryan Sonshine",
-    "email": "ryansonshine@users.noreply.github.com",
-    "url": "https://github.com/ryansonshine"
-  },
-  "engines": {
-    "node": ">=12.0"
-  },
-  "keywords": [
-    "boilerplate",
-    "template",
-    "typescript",
-    "vscode",
-    "jest",
-    "husky",
-    "commitizen",
-    "semantic-release",
-    "codecov"
-  ],
-  "bugs": {
-    "url": "https://github.com/ryansonshine/typescript-npm-package-template/issues"
-  },
-  "homepage": "https://github.com/ryansonshine/typescript-npm-package-template#readme",
   "devDependencies": {
-    "@ryansonshine/commitizen": "^4.2.8",
-    "@ryansonshine/cz-conventional-changelog": "^3.3.4",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^12.20.11",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "conventional-changelog-conventionalcommits": "^5.0.0",
-    "eslint": "^7.25.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
-    "jest": "^27.2.0",
-    "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1",
-    "semantic-release": "^19.0.2",
-    "ts-jest": "^27.0.5",
-    "ts-node": "^10.2.1",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-sucrase": "^3.1.0",
+    "@rollup/plugin-typescript": "^4.0.0",
+    "@types/jest": "^25.1.4",
+    "@types/jest-in-case": "^1.0.1",
+    "@types/puppeteer": "^2.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "chrome-promise": "^3.0.5",
+    "copyfiles": "^2.3.0",
+    "delay": "^4.3.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.8.2",
+    "jest": "^26.6.3",
+    "jest-chrome": "^0.7.0",
+    "jest-in-case": "^1.0.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "prettier-plugin-packagejson": "^2.0.10",
+    "puppeteer": "^5.5.0",
+    "rollup": "^2.34.0",
+    "rollup-plugin-chrome-extension": "^3.4.0",
+    "rollup-plugin-empty-dir": "^1.0.4",
+    "rollup-plugin-zip": "^1.0.0",
+    "rxjs": "^7.1.0",
+    "ts-jest": "^26.5.6",
+    "tslib": "^2.2.0",
     "typescript": "^4.2.4"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/@ryansonshine/cz-conventional-changelog"
-    }
-  },
-  "lint-staged": {
-    "*.ts": "eslint --cache --cache-location .eslintcache --fix"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ],
-    "plugins": [
-      [
-        "@semantic-release/commit-analyzer",
-        {
-          "preset": "conventionalcommits",
-          "releaseRules": [
-            {
-              "type": "build",
-              "scope": "deps",
-              "release": "patch"
-            }
-          ]
-        }
-      ],
-      [
-        "@semantic-release/release-notes-generator",
-        {
-          "preset": "conventionalcommits",
-          "presetConfig": {
-            "types": [
-              {
-                "type": "feat",
-                "section": "Features"
-              },
-              {
-                "type": "fix",
-                "section": "Bug Fixes"
-              },
-              {
-                "type": "build",
-                "section": "Dependencies and Other Build Updates",
-                "hidden": false
-              }
-            ]
-          }
-        }
-      ],
-      "@semantic-release/npm",
-      "@semantic-release/github"
-    ]
   }
 }

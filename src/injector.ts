@@ -1,5 +1,3 @@
-export const IsManifestV3 = () => chrome.runtime.getManifest().manifest_version === 3;
-
 export type ExecuteInPageArgs<Args extends any[]> = {
     tabId: number;
     func?: (...args: Args) => void;
@@ -7,24 +5,16 @@ export type ExecuteInPageArgs<Args extends any[]> = {
     files?: string[];
 };
 
-async function executeInPageV2<T>(param: ExecuteInPageArgs<any>): Promise<void> {
-    if (IsManifestV3()) {
-        console.log('IsManifest v3');
-    }
-    const injectDetails: chrome.tabs.InjectDetails = {
-        code: param.func?.toString(),
-    };
-    await chrome.tabs.executeScript(param.tabId, injectDetails);
-}
-
 async function executeInPage<T>(param: ExecuteInPageArgs<any>): Promise<T | undefined> {
     const args = getExecuteScriptingArgs(param);
     if (!args) return undefined;
+    // @ts-ignore
     const injection = await chrome.scripting.executeScript(args);
     return injection ? (injection[0].result as T) : undefined;
 }
 
-const getExecuteScriptingArgs = (param: ExecuteInPageArgs<any>): chrome.scripting.ScriptInjection | undefined => {
+// @ts-ignore
+const getExecuteScriptingArgs = (param: ExecuteInPageArgs<any>): chrome.scripting.ScriptInjection<any, any> | undefined => {
     // Only one can exist
     if ((param.files && param.func) || (!param.files && !param.func)) return undefined;
     if (param.files) {

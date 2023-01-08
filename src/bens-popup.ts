@@ -1,6 +1,6 @@
 'use strict';
 
-import { ModalInjectionParameters } from '.';
+import { ModalInjectionParameters } from ".";
 
 class BensPopup {
     alarm_popup = 'Show_modal_alarm';
