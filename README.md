@@ -118,7 +118,7 @@ This is what you will get by default, using the light theme
 After import bens, you will have to just invoke ```createModal``` giving as input a configuration object and an id of the tab where you want to show the overlay.
 Your code should look like something like this:
 
-```sh
+```javascript
 import { createModal } from '@fvastu/bens'
 
 // Retrieve all tabs using chrome API, then pick the first one
@@ -205,9 +205,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-You can write me when you want! - [linkedin](https://twitter.com/your_username) - f.vasturzo@live.it
+You can write me when you want! - [linkedin](https://linkedin.com/in/fvastu) - f.vasturzo@live.it
 
-Project Link: [https://github.com/fvastu/bens](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/fvastu/bens](https://github.com/fvastu/bens)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
